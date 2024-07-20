@@ -42,7 +42,7 @@ public class UserController {
 
     @GetMapping("/callUserService")
     public String callCompanyService() {
-        System.out.println("Called from Company Service");
+        log.info("Called from Company Service");
         return "Welcome to "+appName;
     }
 
