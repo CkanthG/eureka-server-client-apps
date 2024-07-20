@@ -6,3 +6,32 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
+resilience4j:
+  circuitbreaker:
+    instances:
+      eureka-user-client:
+        register-health-indicator: true
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        wait-duration-in-open-state: 10s
+        failure-rate-threshold: 50
+        event-consumer-buffer-size: 10
+
+  retry:
+    instances:
+      eureka-user-client:
+        max-attempts: 3
+        wait-duration: 500ms
+
+  ratelimiter:
+    instances:
+      eureka-user-client:
+        limit-for-period: 10
+        limit-refresh-period: 1s
+
+  bulkhead:
+    instances:
+      eureka-user-client:
+        max-concurrent-calls: 5
+        max-wait-duration: 0

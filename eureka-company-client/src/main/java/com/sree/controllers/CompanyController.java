@@ -1,6 +1,10 @@
 package com.sree.controllers;
 
 import com.netflix.discovery.EurekaClient;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -21,6 +25,10 @@ public class CompanyController {
     @Autowired
     RestTemplate restTemplate;
 
+    @CircuitBreaker(name = "eureka-user-client", fallbackMethod = "fallback")
+    @Retry(name = "eureka-user-client")
+    @RateLimiter(name = "eureka-user-client")
+    @Bulkhead(name = "eureka-user-client")
     @GetMapping("/callService")
     public String callService() {
         // Assume "eureka-user-client" is another service registered in Eureka

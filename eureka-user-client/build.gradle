@@ -18,13 +18,15 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "2023.0.2")
+	springCloudVersion = '2023.0.2'
+	resilience4jVersion = '2.0.2'
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation "io.github.resilience4j:resilience4j-spring-boot3:${resilience4jVersion}"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
